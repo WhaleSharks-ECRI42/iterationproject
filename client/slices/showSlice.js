@@ -2,9 +2,9 @@
 // createSlice will reduce the amount of boilerplate code
 // allows us to have action types, action creators, and reducers all in one
 // action types will be something the toolkit does under the hood
-import { createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-
-export const searchTV = createAsyncThunk(
+//import { createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+const {createAsyncThunk, createSlice} = require('@reduxjs/toolkit');
+/* export */const searchTV = createAsyncThunk(
   'shows/searchTV',
   async (searchCriteria, { rejectWithValue }) => {
     try {
@@ -27,7 +27,7 @@ export const searchTV = createAsyncThunk(
   }
 );
 
-export const addFavorite = createAsyncThunk(
+/* export */const addFavorite = createAsyncThunk(
   'shows/addFavorite',
   async (favoriteObj, { rejectWithValue }) => {
     try {
@@ -50,7 +50,7 @@ export const addFavorite = createAsyncThunk(
   }
 );
 
-export const displaysFavorites = createAsyncThunk(
+/* export */const displaysFavorites = createAsyncThunk(
   'shows/displaysFavorites',
   async () => {
     try {
@@ -72,7 +72,7 @@ export const displaysFavorites = createAsyncThunk(
   }
 );
 
-export const deleteFavorite = createAsyncThunk(
+/* export */const deleteFavorite = createAsyncThunk(
   'deleteFavorite',
   async (id, { rejectWithValue }) => {
     try {
@@ -125,7 +125,7 @@ const showSlice = createSlice({
       })
       .addCase(searchTV.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload.error.message;
       })
       .addCase(addFavorite.pending, (state) => {
         state.loading = true;
@@ -169,6 +169,8 @@ const showSlice = createSlice({
   },
 });
 
-export default showSlice.reducer;
+//export default showSlice.reducer;
+
+module.exports = showSlice.reducer;
 
 //this is a comment
