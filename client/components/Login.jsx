@@ -11,7 +11,7 @@ export function Login() {
   //const [password, setPassword] = useState("");
 
   const userInfo = useSelector((state) => state.shows.userInfo);
-  console.log(userInfo);
+  //console.log(userInfo);
   const { username, password } = userInfo;
 
   const setPassword = (password) => {
@@ -21,13 +21,13 @@ export function Login() {
     dispatch(updateUsername(username));
   };
   const getUsername = (event) => {
-    console.log("about to call update username");
+    //console.log("about to call update username");
     setUsername(event.target.value);
     // console.log(event.target.value);
   };
 
   const getPassword = (event) => {
-    console.log("about to call update password");
+    //console.log("about to call update password");
     setPassword(event.target.value);
     // console.log(event.target.value);
   };
@@ -35,13 +35,12 @@ export function Login() {
   const validate = async () => {
     console.log("Validate", username, password);
     try {
-      const response = await fetch("http://localhost:3000/auth/hashedLogin", {
-        method: "post",
+      const response = await fetch("http://localhost:3000/Auth/Login", {
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-        },
-        credentials: "include", // Checking JWT token... CORS related?
+        }, // Checking JWT token... CORS related?
         body: JSON.stringify({ username: username, password: password }),
       });
       if (response.status === 200) {
@@ -66,7 +65,7 @@ export function Login() {
             />
           </div>
           <div className="col p-3 align-items-center">
-            <h3 className="mb-3">The Art Gallery</h3>
+            <h3 className="mb-3">The TV Show Recommendation Platform</h3>
             <h6>Sign into your account</h6>
             <div className="form-floating">
               <input
@@ -76,7 +75,7 @@ export function Login() {
                 placeholder="Username"
                 id="username"
               />
-              <label for="username">Username</label>
+              <label htmlFor="username">Username</label>
             </div>
             <div className="form-floating">
               <input
@@ -86,14 +85,14 @@ export function Login() {
                 placeholder="Password"
                 id="password"
               />
-              <label for="password">Password</label>
+              <label htmlFor="password">Password</label>
             </div>
             <button onClick={validate} className="btn btn-danger w-100 mb-2">
               Login
             </button>
             <p>
               Don't have an account?{" "}
-              <a href="#" onClick={() => navigate("/signup")}>
+              <a href="#" onClick={() => navigate("/Auth/Signup")}>
                 Sign up
               </a>
             </p>

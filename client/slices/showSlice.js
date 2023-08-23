@@ -108,11 +108,11 @@ const showSlice = createSlice({
   },
   reducers: {
     updateUsername(state, action) {
-      console.log("updating username");
+      //console.log("updating username");
       state.userInfo.username = action.payload;
     },
     updatePassword(state, action) {
-      console.log("updating password");
+      //console.log("updating password");
       state.userInfo.password = action.payload;
     },
     doNothing(state, action) {
