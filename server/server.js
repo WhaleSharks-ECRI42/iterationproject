@@ -4,10 +4,11 @@ const connectDB = require('./db')
 connectDB()
 const showRouter = require('./routes/shows')
 const favoriteRouter = require('./routes/favorite')
+const userRouter = require('./routes/userRouter')
 
 app.use(express.json());
-const cors = require('cors')
-app.use(cors())
+const cors = require('cors');
+app.use(cors());
 //app.use(express.urlencoded());
 
 // app.use("/build", express.static(path.join(__dirname, "../build")));
@@ -16,8 +17,12 @@ app.use(cors())
 //   return res.status(200).sendFile(path.join(__dirname, "../index.html"));
 // });
 
+
+
+
 app.use('/TVShow', showRouter);
 app.use('/Favorite', favoriteRouter);
+app.use('/Auth', userRouter);
 
 app.use('*', (req, res) => res.status(404).send('Not Found'));
 
