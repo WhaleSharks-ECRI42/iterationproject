@@ -1,38 +1,56 @@
-const User = require('../models/userModel')
-
+const User = require('../models/userModel');
+const bcrypt = require('bcrypt');
 const userController = {};
 
 
 
 userController.createUser = async (req, res, next) => {
-try{
-const { username, password } = req.body;
-  if(!username || !password){
+  console.log('Entered createUser middleware');
+  try{
+  const { username, password } = req.body;
+  console.log('username :', username);
+  console.log('password :', password);
+    if(!username || !password){
+      return next({
+        log: 'Missing username or password in userController.createUser',
+        status: 400,
+        message: 'Username and Password required'
+      })
+    }
+
+    // ======== CHECK IF USER ALREADY EXISTS  ============
+    const checkUser = await User.findOne({ username });
+    console.log('checkUser', checkUser); 
+    if(checkUser){
+      console.log('username exits');
+      //im a teapot
+      return res.status(418)
+    };
+
+    const salt = await bcrypt.genSalt(10);
+    console.log('salt completed', salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log('password HASHED');
+  
+    // const user = await User.create({
+    //   username, password: hashedPassword}
+    // );
+    const user = new User({
+      username, 
+      password: hashedPassword
+    })
+
+    console.log('user:', user)
+    res.locals.userId = user.id;
+    await user.save();
+    return next(); 
+  }catch(err){
     return next({
-      log: 'Missing username or password in userController.createUser',
+      log: 'There was a problem in userController.createUser',
       status: 400,
-      message: 'Username and Password required'
+      message: 'Problem with the username or password'
     })
   }
-
-  const checkUser = await User.findOne({username});
-  if(!checkuser){
-    return res.direct('/Auth/Login');
-  };
-
-  const salt = await bcrypt.getSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const user = await User.create({username, password: hashedPassword});
-
-  res.locals.userId = user.id;
-  return next(); 
-}catch(err){
-  return next({
-    log: 'There was a problem in userController.createUser, error: ', err,
-    status: 400,
-    message: 'Problem with the username or password'
-  })
-}
 };
 
 

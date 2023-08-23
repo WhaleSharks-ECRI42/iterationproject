@@ -9,7 +9,7 @@ const favoriteSchema = new Schema ({
   overview: {type: String, required: true},
   poster_path: {type: String, required: true},
   user: {
-    type: Schema.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
   }

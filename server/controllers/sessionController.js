@@ -26,7 +26,8 @@ sessionController.isLoggedIn = async (req, res, next) => {
 sessionController.startSession = async (req, res, next) => {
   try{
     const { userId } = res.locals;
-    await Session.create({cookiesId : userId});
+    await Session.create({cookieId : userId});
+    return next(); 
   }catch(err){
     return next({
       log: 'There was an error in sessionController.startSession, error: ', err,

@@ -7,7 +7,7 @@ const userSchema = new Schema({
   password: {type: String, required: true},
   cookie: {type: String},
   favorites: [{
-    type: Schema.ObjectId, 
+    type: Schema.Types.ObjectId, 
     ref:'Favorite'
   }],
 })

@@ -5,11 +5,14 @@ const cookieController = require('../controllers/cookieController');
 
 const router = express.Router();
 
+
+// hard to test this one without an SSID
 router.get('/', cookieController.getSSID, favoriteController.getFavorite, (req, res) => {
   return res.status(200).json(res.locals.favorites);
 });
 
-router.post('/Add', favoriteController.addFavorite, (req, res) => {
+
+router.post('/Add', cookieController.getSSID, favoriteController.addFavorite, (req, res) => {
   return res.status(200).json(res.locals.newFav)
 });
 

@@ -6,7 +6,12 @@ const sessionController = require('../controllers/sessionController')
 const router = express.Router();
 
 
-router.post('/Signup', userController.createUser, sessionController.startSession, cookieController.setSSIDCookie, (req, res) => {
+router.post(
+  '/Signup', 
+  userController.createUser, 
+  sessionController.startSession, 
+  cookieController.setSSIDCookie, 
+  (req, res) => {
   return res.status(200).send('User created');
 })
 
@@ -16,22 +21,18 @@ router.post(
   sessionController.startSession,
   cookieController.setSSIDCookie, 
   (req, res) => {
-  if (res.locals.success) {
-    return res.status(200).send(res.locals.userId);  
-  } else {
-    return res.status(400).send('Unsuccessful login');
-  }
+  return res.status(200).send('Successful login');  
 })
 
 // FOR POSTMAN MOCK USER 
 // {
-  // username: "John"
-  // password: "password123",
-  // cookie: {type: String},
-  // favorites: [{
-  //   type: Schema.ObjectId, 
-  //   ref:'Favorite'
-  // }],
+//   username: "John"
+//   password: "password123",
+//   cookie: {type: String},
+//   favorites: [{
+//     type: Schema.ObjectId, 
+//     ref:'Favorite'
+//   }],
 // }
 
 module.exports = router;
