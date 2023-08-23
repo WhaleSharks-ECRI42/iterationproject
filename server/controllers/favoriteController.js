@@ -19,7 +19,7 @@ favoriteController.addFavorite = async (req, res, next) => {
     overview: overview,
     poster_path: poster_path
   });
-
+  console.log('favorites is : ', favorites);
   res.locals.addFav = favorites;
   await favorites.save();
   return next();  
