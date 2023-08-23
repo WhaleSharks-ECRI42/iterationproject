@@ -3,21 +3,21 @@
 // allows us to have action types, action creators, and reducers all in one
 // action types will be something the toolkit does under the hood
 //import { createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-const {createAsyncThunk, createSlice} = require('@reduxjs/toolkit');
-/* export */const searchTV = createAsyncThunk(
-  'shows/searchTV',
+const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
+/* export */ const searchTV = createAsyncThunk(
+  "shows/searchTV",
   async (searchCriteria, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3000/TVShow', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/TVShow", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(searchCriteria),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch.');
+        throw new Error("Failed to fetch.");
       }
 
       return await response.json();
@@ -27,20 +27,20 @@ const {createAsyncThunk, createSlice} = require('@reduxjs/toolkit');
   }
 );
 
-/* export */const addFavorite = createAsyncThunk(
-  'shows/addFavorite',
+/* export */ const addFavorite = createAsyncThunk(
+  "shows/addFavorite",
   async (favoriteObj, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3000/Favorite/Add', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/Favorite/Add", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(favoriteObj),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch.');
+        throw new Error("Failed to fetch.");
       }
 
       return await response.json();
@@ -50,19 +50,19 @@ const {createAsyncThunk, createSlice} = require('@reduxjs/toolkit');
   }
 );
 
-/* export */const displaysFavorites = createAsyncThunk(
-  'shows/displaysFavorites',
+/* export */ const displaysFavorites = createAsyncThunk(
+  "shows/displaysFavorites",
   async () => {
     try {
-      const response = await fetch('http://localhost:3000/Favorite', {
-        method: 'GET',
+      const response = await fetch("http://localhost:3000/Favorite", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch.');
+        throw new Error("Failed to fetch.");
       }
 
       return await response.json();
@@ -72,19 +72,19 @@ const {createAsyncThunk, createSlice} = require('@reduxjs/toolkit');
   }
 );
 
-/* export */const deleteFavorite = createAsyncThunk(
-  'deleteFavorite',
+/* export */ const deleteFavorite = createAsyncThunk(
+  "deleteFavorite",
   async (id, { rejectWithValue }) => {
     try {
       const response = await fetch(`http://localhost:3000/Favorite/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to fetch.');
+        throw new Error("Failed to fetch.");
       }
 
       return await response.json();
@@ -94,10 +94,8 @@ const {createAsyncThunk, createSlice} = require('@reduxjs/toolkit');
   }
 );
 
-
-
 const showSlice = createSlice({
-  name: 'shows',
+  name: "shows",
   //will be empty - populated for testing purposes
   //initial state on app startup
   initialState: {
@@ -105,9 +103,22 @@ const showSlice = createSlice({
     loading: false,
     error: null,
     showAddButton: true,
-    showDeleteButton: false
+    showDeleteButton: false,
+    userInfo: { username: "", password: "" },
   },
-  reducers: {},
+  reducers: {
+    updateUsername(state, action) {
+      console.log("updating username");
+      state.userInfo.username = action.payload;
+    },
+    updatePassword(state, action) {
+      console.log("updating password");
+      state.userInfo.password = action.payload;
+    },
+    doNothing(state, action) {
+      state = state;
+    },
+  },
   // extraReducers is a separate object for async reducers (builder is boilerplate, then we have addCases instead of switch cases)
   extraReducers: (builder) => {
     builder
@@ -117,11 +128,10 @@ const showSlice = createSlice({
       })
       .addCase(searchTV.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action)
-        console.log(action.payload)
+        console.log(action);
+        console.log(action.payload);
         state.shows = action.payload; // Assuming the backend returns an array of shows
-        state.showAddButton = true,
-        state.showDeleteButton = false
+        (state.showAddButton = true), (state.showDeleteButton = false);
       })
       .addCase(searchTV.rejected, (state, action) => {
         state.loading = false;
@@ -133,7 +143,7 @@ const showSlice = createSlice({
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('hi')// Assuming the backend returns an array of shows
+        console.log("hi"); // Assuming the backend returns an array of shows
       })
       .addCase(addFavorite.rejected, (state, action) => {
         state.loading = false;
@@ -145,10 +155,10 @@ const showSlice = createSlice({
       })
       .addCase(displaysFavorites.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload)
-        state.shows = action.payload,// Assuming the backend returns an array of shows
-        state.showAddButton = false,
-        state.showDeleteButton = true
+        console.log(action.payload);
+        (state.shows = action.payload), // Assuming the backend returns an array of shows
+          (state.showAddButton = false),
+          (state.showDeleteButton = true);
       })
       .addCase(displaysFavorites.rejected, (state, action) => {
         state.loading = false;
@@ -160,7 +170,7 @@ const showSlice = createSlice({
       })
       .addCase(deleteFavorite.fulfilled, (state, action) => {
         state.loading = false;
-        state.shows = action.payload// Assuming the backend returns an array of shows
+        state.shows = action.payload; // Assuming the backend returns an array of shows
       })
       .addCase(deleteFavorite.rejected, (state, action) => {
         state.loading = false;
@@ -171,6 +181,11 @@ const showSlice = createSlice({
 
 //export default showSlice.reducer;
 
-module.exports = showSlice.reducer;
+const { updatePassword, updateUsername } = showSlice.actions;
+module.exports = {
+  reducer: showSlice.reducer,
+  updatePassword,
+  updateUsername,
+};
 
 //this is a comment

@@ -4,6 +4,7 @@ const connectDB = require("./db");
 connectDB();
 const showRouter = require("./routes/shows");
 const favoriteRouter = require("./routes/favorite");
+const path = require("path");
 
 app.use(express.json());
 const cors = require("cors");
@@ -12,9 +13,9 @@ app.use(cors());
 
 // app.use("/build", express.static(path.join(__dirname, "../build")));
 
-// app.get("/", (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, "../index.html"));
-// });
+app.use("/", express.static(path.resolve(__dirname, "../build")));
+app.use("/main", express.static(path.resolve(__dirname, "../build")));
+app.use("/signup", express.static(path.resolve(__dirname, "../build")));
 
 app.use("/TVShow", showRouter);
 app.use("/Favorite", favoriteRouter);
