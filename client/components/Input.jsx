@@ -29,7 +29,7 @@ const Input = () => {
     dispatch(searchTV(newSubmission));
   }
   // invoking setter functions, passing in our inputs, assigning state to our inputs 
-  // when submit button is clicked, invokes onSubmit on the form
+  // when submit button is clicked, invokes onSubmit on the form 
   return (
     <div className="input">
       <form onSubmit={onSubmit}>
