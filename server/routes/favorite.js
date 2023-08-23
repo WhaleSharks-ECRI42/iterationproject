@@ -10,7 +10,7 @@ router.get('/', cookieController.getSSID, favoriteController.getFavorite, (req, 
 });
 
 router.post('/Add', favoriteController.addFavorite, (req, res) => {
-  return res.status(200).json(res.locals.newFav)
+  return res.status(200).json(res.locals.addFav)
 });
 
 router.delete('/:id', favoriteController.deleteFavorite, favoriteController.getFavorite, (req, res) => {
