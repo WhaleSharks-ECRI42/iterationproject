@@ -7,7 +7,13 @@ const favoriteSchema = new Schema ({
   vote_average: {type: Number, required: true},
   first_air_date: {type: String, required: true},
   overview: {type: String, required: true},
-  poster_path: {type: String, required: true}
+  poster_path: {type: String, required: true},
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User',
+    required: true
+  }
 })
+
 
 module.exports = mongoose.model('Favorite', favoriteSchema);

@@ -1,5 +1,8 @@
+
+const Favorite = require('../models/favoriteModel');
 const favoriteController = {};
-const Favorite = require('../models/favoriteModel')
+const User = require('../models/favoriteModel');
+
 
 // adds a show to favorite database
 favoriteController.addFavorite = async (req, res, next) => {
@@ -11,18 +14,28 @@ favoriteController.addFavorite = async (req, res, next) => {
   console.log('overview: ', req.body.overview);
   console.log('posterpath: ', req.body.poster_path);
   try {
-  const { name, vote_average , first_air_date, overview, poster_path } = req.body;
-  const favorites = await Favorite.create({
-    name: name,
-    vote_average: vote_average,
-    first_air_date: first_air_date,
-    overview: overview,
-    poster_path: poster_path
-  });
-
-  res.locals.addFav = favorites;
-  await favorites.save();
-  return next();  
+    const {ssid} = res.locals;
+    const { name, vote_average , first_air_date, overview, poster_path } = req.body;
+    // we create a fav document in MongoDB Favorites Collection
+    const favorites = await Favorite.create({
+      name: name,
+      vote_average: vote_average,
+      first_air_date: first_air_date,
+      overview: overview,
+      poster_path: poster_path,
+      user: ssid
+    });
+    // in there now, we assign favoriteId to newly created document's casted id_ 
+    const favoriteId = favorites.id;
+    // look for our user in the database , this is the user that is currently logged in
+    const foundUser = await User.findbyId({ssid}); // SSID === OBJECT ID in our implementation
+    // access our signed in user's favorites array [] , and push our favoriteId into it (line 29) ref. creation on 20
+    foundUser.favorites.push(favoriteId);
+    // passing to display later in nex()
+    res.locals.addFav = favorites;
+    // save new favorite entry to Favorites collection 
+    await favorites.save();
+    return next();  
   } catch (err) {
     next({
       log: 'Error in addFavorite',
@@ -32,12 +45,14 @@ favoriteController.addFavorite = async (req, res, next) => {
 }
 
 favoriteController.getFavorite = async (req, res, next) => {
-  try{
-    const favoriteList = await Favorite.find({});
+
+  try {
+    const {ssid} = res.locals;
+    const favoriteList = await Favorite.find({user: ssid});
     res.locals.favorites = favoriteList;
     console.log(res.locals.favorites)
     return next();
-  }catch{
+  } catch {
     return next({
       log: 'There was a problem in favoriteController.getFavorite',
       status: 400,
