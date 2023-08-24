@@ -8,7 +8,7 @@ cookieController.setSSIDCookie = async (req, res, next) => {
   try{
     const { userId } = res.locals;
     console.log(userId);
-    await res.cookie('ssid', userId, {httpOnly: true});
+    await res.cookie('ssid', userId, { httpOnly: true, sameSite: false});
     return next();
   }catch(err){
     return next({
@@ -28,13 +28,13 @@ cookieController.getSSID = async (req, res, next) => {
     // console.log('SSID', ssid)
     // res.locals.SSID = ssdid;
 
-
+    //console.log('req' , req);
     // console.log('req', req.cookies.ssid);
     // console.log('res', res.cookie.ssid);
     const ssid = req.cookies.ssid; //<-- OMITTED FOR TESTING
     // const ssid = "64e6529c445d6e4d5007c376"
-    // console.log('ssid', ssid);
-    console.log('ssid:', ssid);
+    console.log('ssid', ssid);
+
     res.locals.ssid = ssid;
     return next();
   }catch(err){

@@ -1,4 +1,3 @@
-
 const Favorite = require('../models/favoriteModel');
 const favoriteController = {};
 const User = require('../models/userModel');
@@ -15,12 +14,11 @@ favoriteController.addFavorite = async (req, res, next) => {
   // console.log('overview: ', req.body.overview);
   // console.log('posterpath: ', req.body.poster_path);
   try {
-    console.log('made it to add favorite');
-    const ssid = res.locals.ssid;
-    console.log('ssid: ', res.locals.ssid);
+
+    const ssid = req.cookies.ssid;
     const { name, vote_average , first_air_date, overview, poster_path } = req.body;
     // we create a fav document in MongoDB Favorites Collection
-    console.log('req.body:', req.body);
+
     const favorites = await Favorite.create({
       name: name,
       vote_average: vote_average,
@@ -29,28 +27,31 @@ favoriteController.addFavorite = async (req, res, next) => {
       poster_path: poster_path,
       user: ssid
     });
-    console.log('newFavorite: ', favorites);
+    //console.log('newFavorite: ', favorites);
 
 
     // favorite is created now, we assign favoriteId to newly created document's casted id_ 
     const favoriteId = favorites.id;
-    console.log('favoriteID: ', favoriteId);
+    // console.log('favoriteID: ', favoriteId);
     // look for our user in the database , this is the user that is currently logged in
-    console.log('users ssid', ssid);
-    console.log('favorites.user', favorites.user);
+    //console.log('users ssid', ssid);
+    //console.log('favorites.user', favorites.user);
     //console.log(mongoose.Types.ObjectID(ssid));
 // mongoose.Types.ObjectID(ssid)
-    console.log(User); 
+    //console.log(User); 
     const foundUser = await User.findById(ssid); // SSID === OBJECT ID in our implementation
     // access our signed in user's favorites array [] , and push our favoriteId into it (line 29) ref. creation on 20
-    console.log('foundUser: ', foundUser);
-    foundUser.favorites.push(favoriteId);
+    //console.log('foundUser: ', foundUser);
+    foundUser.favorites.push(favoriteId); 
+    await foundUser.save() 
+    //User.update({username: foundUser.username}, {$set: {favorites: foundUser.favorites}})
+    //const updatedUser = await 
     // passing to display later in nex()
-    console.log('updatedFavorites: ', foundUser);
+    //console.log('updatedFavorites: ', foundUser);
     res.locals.addFav = favorites;
     // save new favorite entry to Favorites collection 
-    console.log('addFav: ', res.locals.addFav);
-    await favorites.save();
+    //console.log('addFav: ', res.locals.addFav);
+ 
     return next();  
   } catch (err) {
     next({
@@ -61,12 +62,16 @@ favoriteController.addFavorite = async (req, res, next) => {
 }
 
 favoriteController.getFavorite = async (req, res, next) => {
-
+  console.log('ENTERED GET FAVORITE MIDDLEWARE');
   try {
-    const {ssid} = res.locals;
+    const ssid = req.cookies.ssid;
+    
     const favoriteList = await Favorite.find({user: ssid});
     res.locals.favorites = favoriteList;
-    console.log(res.locals.favorites)
+  
+    console.log('FAVORITES LENGTH:', res.locals.favorites.length)
+    console.log('FAVORITES LIST:', res.locals.favorites)
+ 
     return next();
   } catch {
     return next({
@@ -79,8 +84,11 @@ favoriteController.getFavorite = async (req, res, next) => {
 
 favoriteController.deleteFavorite = async (req, res, next) => {
   try{
+    //console.log('req.params: ', req.params);
     const { id } = req.params;
+    //console.log('id:', id);
     const deleteShow = await Favorite.findById(id);
+    console.log('deletedShow found by ID:', deleteShow);
     if (!deleteShow) {
       return res.status(404).json({error: 'Show not found'})
     }

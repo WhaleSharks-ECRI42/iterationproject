@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updatePassword, updateUsername } from "../slices/showSlice";
-
+import axios from 'axios';
 export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,14 +35,23 @@ export function Login() {
   const validate = async () => {
     console.log("Validate", username, password);
     try {
-      const response = await fetch("http://localhost:3000/Auth/Login", {
-        method: "POST",
+//       const response = await fetch("http://localhost:3000/Auth/Login", {
+//         method: "POST",
+//         headers: {
+//           Accept: "application/json",
+//           "Content-Type": "application/json",
+//           credentials: 'include'
+//         },
+//  // Checking JWT token... CORS related?
+//         body: JSON.stringify({ username: username, password: password }),
+//       });
+      const config = {
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        }, // Checking JWT token... CORS related?
-        body: JSON.stringify({ username: username, password: password }),
-      });
+          "Content-Type": "application/json"
+          },
+          withCredentials: true
+        };
+      const response = await axios.post("http://localhost:3000/Auth/Login",{ username: username, password: password }, config);
       if (response.status === 200) {
         navigate("/main");
       } else {

@@ -9,9 +9,11 @@ const cookieParser = require('cookie-parser')
 
 app.use(express.json());
 const cors = require("cors");
-app.use(cors());
-app.use(express.urlencoded());
 app.use(cookieParser());
+app.use(cors({origin: 'http://localhost:8080', credentials: true }));
+app.use(express.urlencoded());
+
+
 
 // app.use("/build", express.static(path.join(__dirname, "../build")));
 
