@@ -31,8 +31,9 @@ sessionController.isLoggedIn = async (req, res, next) => {
 sessionController.startSession = async (req, res, next) => {
   console.log('enters startSession');
   let ssid, session;
-  if(req.cookies){ 
+  if(req.cookies && Object.entries(req.cookies).length){ 
     console.log('ya got a cookie')
+    console.log('req.cookies', req.cookies);
     ssid = req.cookies.ssid;
     console.log('ssid:', ssid);
     session = await Session.findOne({cookieId:ssid});
