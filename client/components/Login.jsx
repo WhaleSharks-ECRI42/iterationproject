@@ -64,18 +64,11 @@ export function Login() {
 
   return (
     <>
-      <div className="container d-flex justify-content-center align-items-center mt-5">
+      <div className="curtain-background">
         <div className="row border border-2 rounded-3 shadow">
-          <div className="col">
-            <img
-              src="/assets/popcat-left.gif"
-              style={{ width: 400 }}
-              className="img-fluid border rounded-3 m-2"
-            />
-          </div>
-          <div className="col p-3 align-items-center">
-            <h3 className="mb-3">The TV Show Recommendation Platform</h3>
-            <h6>Sign into your account</h6>
+          <div className="col p-3 align-items-center" style={{backgroundColor: '#20101E'}}>
+            <h3 className="welcome" style={{color: '#FAF5F9'}}>MiniCinema</h3>
+            <h6 style={{color: '#FAF5F9'}}>Sign into your account</h6>
             <div className="form-floating">
               <input
                 className="form-control mb-2"
@@ -99,7 +92,7 @@ export function Login() {
             <button onClick={validate} className="btn btn-danger w-100 mb-2">
               Login
             </button>
-            <p>
+            <p style={{color: '#FAF5F9'}}>
               Don't have an account?{" "}
               <a href="#" onClick={() => navigate("/Auth/Signup")}>
                 Sign up

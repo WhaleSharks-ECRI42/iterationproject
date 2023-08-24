@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updatePassword, updateUsername } from "../slices/showSlice";
+import styles from "../styles.css";
 
 export function Signup() {
   const dispatch = useDispatch();
@@ -47,18 +48,11 @@ export function Signup() {
 
   return (
     <>
-      <div className="container d-flex justify-content-center align-items-center mt-5">
-        <div className="row border border-2 rounded-3 shadow">
-          <div className="col">
-            <img
-              src="https://cdn.pixabay.com/photo/2016/10/04/08/58/theater-1713816_1280.jpg"
-              style={{ width: 400 }}
-              className="img-fluid border rounded-3 m-2"
-            />
-          </div>
-          <div className="col p-3 align-items-center">
-            <h3 className="mb-3">The TV Show Recommendation Platform</h3>
-            <h6>Sign up</h6>
+      <div className="curtain-background" >
+        <div className="row border border-2 rounded-3 shadow" >
+          <div className="col p-3 align-items-center" style={{backgroundColor: '#20101E'}}>
+            <h3 className="mb-3" style={{color: '#FAF5F9'}}>The TV Show Recommendation Platform</h3>
+            <h6 style={{color: '#FAF5F9'}}>Sign up</h6>
             <div className="form-floating">
               <input
                 className="form-control mb-2"
@@ -79,10 +73,10 @@ export function Signup() {
               />
               <label htmlFor="password">Password</label>
             </div>
-            <button onClick={signup} className="btn btn-primary w-100 mb-2">
+            <button onClick={signup} className="btn btn-danger w-100 mb-2">
               Sign up
             </button>
-            <p>
+            <p style={{color: '#FAF5F9'}}>
               Already have an account?{" "}
               <a href="/" onClick={() => navigate("/")}>
                 Log in
