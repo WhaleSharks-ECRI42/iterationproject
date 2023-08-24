@@ -31,7 +31,7 @@ export function Signup() {
   const signup = async () => {
     console.log("signup called");
     try {
-      const response = await fetch("http://localhost:3000/auth/signup", {
+      const response = await fetch("http://localhost:3000/Auth/Signup", {
         method: "post",
         headers: {
           Accept: "application/json",
@@ -57,7 +57,7 @@ export function Signup() {
             />
           </div>
           <div className="col p-3 align-items-center">
-            <h3 className="mb-3">The Art Gallery</h3>
+            <h3 className="mb-3">The TV Show Recommendation Platform</h3>
             <h6>Sign up</h6>
             <div className="form-floating">
               <input

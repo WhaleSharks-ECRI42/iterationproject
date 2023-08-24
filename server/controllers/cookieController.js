@@ -29,8 +29,8 @@ cookieController.getSSID = async (req, res, next) => {
 
     // console.log('req', req.cookies.ssid);
     // console.log('res', res.cookie.ssid);
-    // const ssid = res.cookie.ssid; <-- OMITTED FOR TESTING
-    const ssid = "64e6529c445d6e4d5007c376"
+    const ssid = res.cookie.ssid; //<-- OMITTED FOR TESTING
+    // const ssid = "64e6529c445d6e4d5007c376"
     // console.log('ssid', ssid);
     res.locals.ssid = ssid;
     return next();
