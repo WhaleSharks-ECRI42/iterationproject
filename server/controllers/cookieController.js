@@ -4,8 +4,10 @@ const cookieParser = require('cookie-parser');
 const cookieController ={};
 
 cookieController.setSSIDCookie = async (req, res, next) => {
+  console.log('entered setSSIDCookie');
   try{
     const { userId } = res.locals;
+    console.log(userId);
     await res.cookie('ssid', userId, {httpOnly: true});
     return next();
   }catch(err){
@@ -29,9 +31,10 @@ cookieController.getSSID = async (req, res, next) => {
 
     // console.log('req', req.cookies.ssid);
     // console.log('res', res.cookie.ssid);
-    const ssid = res.cookie.ssid; //<-- OMITTED FOR TESTING
+    const ssid = req.cookies.ssid; //<-- OMITTED FOR TESTING
     // const ssid = "64e6529c445d6e4d5007c376"
     // console.log('ssid', ssid);
+    console.log('ssid:', ssid);
     res.locals.ssid = ssid;
     return next();
   }catch(err){

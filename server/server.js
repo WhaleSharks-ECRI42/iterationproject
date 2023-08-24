@@ -5,11 +5,13 @@ connectDB();
 const showRouter = require("./routes/shows");
 const favoriteRouter = require("./routes/favorite");
 const userRouter = require("./routes/userRouter");
+const cookieParser = require('cookie-parser')
 
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
-//app.use(express.urlencoded());
+app.use(express.urlencoded());
+app.use(cookieParser());
 
 // app.use("/build", express.static(path.join(__dirname, "../build")));
 
