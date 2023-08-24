@@ -55,8 +55,13 @@ userController.createUser = async (req, res, next) => {
 
 
 userController.verifyUser = async (req, res, next) => {
+  console.log('enters verifyUser');
   try {
-    const { username, password } = req.body; // FRONTEND : send username and password in req.body
+    const { username, password } = req.body; 
+    console.log('username:', username);
+    console.log('password: ', password);  
+    
+    // FRONTEND : send username and password in req.body
     if (!username || !password)
       return next({
         log: "Missing username or password in userController.verifyUser",
@@ -64,8 +69,13 @@ userController.verifyUser = async (req, res, next) => {
         message: { err: "Invalid username or password" },
       });
     const user = await User.findOne({ username });
+    console.log('user is: ', user);
     if (!user) {
-      return res.redirect("/Auth/Signup");
+      return next({
+        log: "Failed findOne",
+        status: 400,
+        message: { err: "Invalid username" },
+      });
     } else {
         try {
           const result = await bcrypt.compare(password, user.password);

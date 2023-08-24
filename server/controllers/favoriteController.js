@@ -1,7 +1,8 @@
 
 const Favorite = require('../models/favoriteModel');
 const favoriteController = {};
-const User = require('../models/favoriteModel');
+const User = require('../models/userModel');
+const mongoose = require('mongoose');
 
 
 // adds a show to favorite database
@@ -35,12 +36,17 @@ favoriteController.addFavorite = async (req, res, next) => {
     const favoriteId = favorites.id;
     console.log('favoriteID: ', favoriteId);
     // look for our user in the database , this is the user that is currently logged in
+    console.log('users ssid', ssid);
+    console.log('favorites.user', favorites.user);
+    //console.log(mongoose.Types.ObjectID(ssid));
+// mongoose.Types.ObjectID(ssid)
+    console.log(User); 
     const foundUser = await User.findById(ssid); // SSID === OBJECT ID in our implementation
     // access our signed in user's favorites array [] , and push our favoriteId into it (line 29) ref. creation on 20
     console.log('foundUser: ', foundUser);
     foundUser.favorites.push(favoriteId);
     // passing to display later in nex()
-    console.log('updatedFavroites: ', foundUser);
+    console.log('updatedFavorites: ', foundUser);
     res.locals.addFav = favorites;
     // save new favorite entry to Favorites collection 
     console.log('addFav: ', res.locals.addFav);
@@ -92,3 +98,22 @@ favoriteController.deleteFavorite = async (req, res, next) => {
 }
 
 module.exports = favoriteController
+
+
+// {
+//   "username":"john123",
+//   "password":"password123"
+// }
+
+
+// {
+//   "name": "Michael",
+//   "vote_average": "6",
+//   "first_air_date": "2023-08-22",
+//   "overview": "A really bad movie",
+//   "poster_path": "/bing.jpg"
+// }
+
+
+// john123: 64e6529c445d6e4d5007c376
+// andrew: 64e69ca6819d06dbe40c1553
