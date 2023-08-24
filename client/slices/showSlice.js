@@ -5,30 +5,43 @@ const axios = require('axios');
 // action types will be something the toolkit does under the hood
 //import { createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
-/* export */ const searchTV = createAsyncThunk(
+/* export */ 
+
+const searchTV = createAsyncThunk(
   "shows/searchTV",
   async (searchCriteria, { rejectWithValue }) => {
+
+    //console.log('search Criteria: ', seachCriteria);
+    
     try {
-      const response = await fetch("http://localhost:3000/TVShow", {
-        method: "POST",
+      // const response = await fetch("http://localhost:3000/TVShow", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     credentials : 'include'
+      //   },
+      //   body: JSON.stringify(searchCriteria),
+      // });
+      const response = await axios.post('http://localhost:3000/TVShow', searchCriteria, {
         headers: {
-          "Content-Type": "application/json",
-          credentials: 'include'
-        },
-        body: JSON.stringify(searchCriteria),
+          "Content-Type": "application/json"
+          },
+          withCredentials: true
       });
       
+      // if (!response.ok) {
+      //   throw new Error("Failed to fetch.");
+      // }
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch.");
-      }
-
-      return await response.json();
+      return  response.data;
     } catch (error) {
+      console.log('error', error);
       return rejectWithValue(error.message);
     }
   }
 );
+
+
 
 const addFavorite = createAsyncThunk(
   "shows/addFavorite",
@@ -56,6 +69,7 @@ const addFavorite = createAsyncThunk(
 
       return await response.json();
     } catch (error) {
+      console.log('error', error);
       return rejectWithValue(error.message);
     }
   }
@@ -97,7 +111,7 @@ const addFavorite = createAsyncThunk(
       //     "Content-Type": "application/json",
       //   },
       // });
-
+      console.log('showSlice ID', id);
       const response = await axios.delete(`http://localhost:3000/Favorite/${id}`, {
         headers: {
           "Content-Type": "application/json"
@@ -106,7 +120,7 @@ const addFavorite = createAsyncThunk(
         });
       
         // reverted this back to original so we don't forget, but i think we need this to be whats shown on line 82
-      return await response.json();
+      return response.data;
     } catch (error) {
       console.log('catch block in deleteFavorite');
       return rejectWithValue(error);
@@ -143,6 +157,7 @@ const showSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(searchTV.pending, (state) => {
+        console.log('you called searchTV')
         state.loading = true;
         state.error = null;
       })
@@ -154,8 +169,11 @@ const showSlice = createSlice({
         (state.showAddButton = true), (state.showDeleteButton = false);
       })
       .addCase(searchTV.rejected, (state, action) => {
+        console.log('ya got rejected');
+        console.log('state is: ', state);
+        console.log('your payload is ', action.payload);
         state.loading = false;
-        state.error = action.payload.error.message;
+        state.error = action.payload.error;
       })
       .addCase(addFavorite.pending, (state) => {
         state.loading = true;

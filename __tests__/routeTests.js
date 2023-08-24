@@ -6,22 +6,41 @@ const path = require('path');
 //const testJsonFile = require(path.resolve(__dirname, '../server/db/favorites.test.json'));
 //console.log(testJsonFile);
 describe('Testing Route integration', () => {
+  let header;
+
+  beforeEach({
+    const credentials = {
+      username: "andrew" ,
+      password: "password123",
+    };
+    
+    // Make request to login   
+    const response = await request.post("/Auth/Login").send(credentials);
+    
+    // Get cookies from response
+    header = response.header;
+    
+    // Make request to a private route
+  });
+  
 
   describe('/Favorite', () => {
     
     describe('GET', () =>{
+      
       it('response with 200 status and application.json', () => {
-        return request(server)
-          .get('/Favorite')
-          .expect('Content-Type', /application\/json/)
+        // Make request to a private route
+        const response_with_cookies = await request
+            .get("/Favorite")
+            .set("Cookie", [...header["set-cookie"]]) // this line I add cookies...
+            .expect('Content-Type', /application\/json/)
           .expect(200);
       });
     });
   });
 
   describe('/Favorite/Add', () => {  
-    describe('POST', () => {
-      it('response with 200 status', () =>{
+    describe('POST', () => {        
         const favoriteMovie = 
           {
             name: 'Harry Potter',
@@ -32,6 +51,7 @@ describe('Testing Route integration', () => {
 
         return request(server)
           .post('/Favorite/Add')
+          .set("Cookie", [...header["set-cookie"]])
           .send(favoriteMovie)
           .expect(200);
       });
@@ -47,6 +67,7 @@ describe('Testing Route integration', () => {
 
         let result = await request(server)
           .post('/Favorite/Add')
+          .set("Cookie", [...header["set-cookie"]])
           .send(favoriteMovie2)
           .expect(200)
         //console.log('result body is: ', result.body);
@@ -57,7 +78,8 @@ describe('Testing Route integration', () => {
         expect(result.body.poster_path).toEqual(favoriteMovie2.poster_path);
       })
   })
-})
+
+
   describe('/Favorite/:id', () => {
     describe('DELETE', () => {
       it('delete response with 200 status and ', async () => {
@@ -71,11 +93,13 @@ describe('Testing Route integration', () => {
 
         let result = await request(server)
           .post('/Favorite/Add')
+          .set("Cookie", [...header["set-cookie"]])
           .send(favoriteMovie2)
           .expect(200)
         const id = result.body._id
         return request(server)
           .delete(`/Favorite/${id}`)
+          .set("Cookie", [...header["set-cookie"]])
           .expect(200);
       })
     })

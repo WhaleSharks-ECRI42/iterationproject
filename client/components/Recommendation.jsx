@@ -30,7 +30,7 @@ const Recommendation = ({ show }) => {
   };
 
   const deleteFavorite2 = () => {
-    dispatch(deleteFavorite(show.id));
+    dispatch(deleteFavorite(show._id));
   };
 
   return (

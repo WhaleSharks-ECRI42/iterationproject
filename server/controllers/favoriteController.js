@@ -84,8 +84,11 @@ favoriteController.getFavorite = async (req, res, next) => {
 
 favoriteController.deleteFavorite = async (req, res, next) => {
   try{
+    //console.log('req.params: ', req.params);
     const { id } = req.params;
+    //console.log('id:', id);
     const deleteShow = await Favorite.findById(id);
+    console.log('deletedShow found by ID:', deleteShow);
     if (!deleteShow) {
       return res.status(404).json({error: 'Show not found'})
     }

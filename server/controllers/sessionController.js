@@ -42,7 +42,9 @@ sessionController.startSession = async (req, res, next) => {
   if(!session){
     try{
       const { userId } = res.locals;
-      await Session.create({cookieId : userId});
+      console.log('userId', userId);
+      session = await Session.create({cookieId : userId});
+      console.log('createdSession', session); 
       return next(); 
     }catch(err){
       return next({
