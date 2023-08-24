@@ -66,7 +66,7 @@ export function Login() {
     <>
       <div className="curtain-background">
         <div className="row border border-2 rounded-3 shadow">
-          <div className="col p-3 align-items-center" style={{backgroundColor: '#20101E'}}>
+          <div className="col p-3 align-items-center" style={{backgroundColor: '#20101E' }}>
             <h3 className="welcome" style={{color: '#FAF5F9'}}>MiniCinema</h3>
             <h6 style={{color: '#FAF5F9'}}>Sign into your account</h6>
             <div className="form-floating">

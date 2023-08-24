@@ -41,6 +41,9 @@ export function Signup() {
         body: JSON.stringify({ username: username, password: password }),
       });
       console.log(response);
+      if(response.ok){
+        navigate('/');
+      }
     } catch (err) {
       console.log(err);
     }

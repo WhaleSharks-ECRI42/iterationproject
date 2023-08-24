@@ -18,12 +18,7 @@ const Header = () => {
 
   return (
     <div className="title">
-      <div><h1>What's Your Favorite Show?</h1></div>
-        <div>
-        <form onSubmit={onSubmit}>
-          <button id="favoritesButton"> Favorites </button>
-        </form>
-        </div>
+      {/* <script scr="https://www.funsignfactory.com/cdn/shop/products/SS1035_SHOWTIME.jpg?v=1582309623"> </script> */}
     </div>
   )
 }

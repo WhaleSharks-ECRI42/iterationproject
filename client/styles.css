@@ -77,15 +77,18 @@ body {
   font-family: 'Poppins', sans-serif;
   font-size: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 40px;
+  margin-bottom: 20px; 
   /* //text-align: center; */
 };
 
 #poster {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
+  margin-left: 0;
+  margin-right: 0;
+  width: 20%;
+  height: auto;
 }
 
 /* .input placeholder {
@@ -111,4 +114,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  color: #FAF5F9;
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px; 
+  padding: 20px; 
+  border-radius: 10px;
+}
+
+.infoCard ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.infoCard p {
+  margin: 0.5em 0;
+}
+
+.infoCard .bold {
+  color:#CFB53B
+}
+
+
+.infoCard p:not(.bold) {
+  font-weight: normal; /* Remove bold font-weight */
 }

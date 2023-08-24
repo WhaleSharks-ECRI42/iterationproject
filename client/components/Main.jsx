@@ -11,7 +11,7 @@ import TVDisplay from "/client/components/TVDisplay";
 const Main = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Input />
       <TVDisplay />
     </div>

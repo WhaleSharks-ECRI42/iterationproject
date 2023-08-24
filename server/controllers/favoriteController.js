@@ -8,37 +8,36 @@ const mongoose = require('mongoose');
 favoriteController.addFavorite = async (req, res, next) => {
   // deconstruct the body request
   // create a new entry in the database
-  // console.log('name: ', req.body.name);
-  // console.log('rating: ', req.body.vote_average);
-  // console.log('first_air_date: ', req.body.first_air_date);
-  // console.log('overview: ', req.body.overview);
-  // console.log('posterpath: ', req.body.poster_path);
+  console.log('name: ', req.body.name);
+  console.log('rating: ', req.body.vote_average);
+  console.log('first_air_date: ', req.body.first_air_date);
+  console.log('overview: ', req.body.overview);
+  console.log('posterpath: ', req.body.poster_path);
   try {
 
     const ssid = req.cookies.ssid;
-    const { name, vote_average , first_air_date, overview, poster_path } = req.body;
+    const { title, vote_average, release_date, overview, poster_path } = req.body;  // Updated field names
     // we create a fav document in MongoDB Favorites Collection
-
+    console.log('ssid', ssid);
     const favorites = await Favorite.create({
-      name: name,
+      title: title,  // Replace 'name' with 'title'
       vote_average: vote_average,
-      first_air_date: first_air_date,
+      release_date: release_date,  // Replace 'first_air_date' with 'release_date'
       overview: overview,
       poster_path: poster_path,
       user: ssid
     });
-    //console.log('newFavorite: ', favorites);
+    console.log('newFavorite: ', favorites);
 
 
     // favorite is created now, we assign favoriteId to newly created document's casted id_ 
     const favoriteId = favorites.id;
-    // console.log('favoriteID: ', favoriteId);
+    console.log('favoriteID: ', favoriteId);
     // look for our user in the database , this is the user that is currently logged in
-    //console.log('users ssid', ssid);
-    //console.log('favorites.user', favorites.user);
-    //console.log(mongoose.Types.ObjectID(ssid));
-// mongoose.Types.ObjectID(ssid)
-    //console.log(User); 
+    console.log('users ssid', ssid);
+    console.log('favorites.user', favorites.user);
+    
+    console.log(User); 
     const foundUser = await User.findById(ssid); // SSID === OBJECT ID in our implementation
     // access our signed in user's favorites array [] , and push our favoriteId into it (line 29) ref. creation on 20
     //console.log('foundUser: ', foundUser);
@@ -47,7 +46,7 @@ favoriteController.addFavorite = async (req, res, next) => {
     //User.update({username: foundUser.username}, {$set: {favorites: foundUser.favorites}})
     //const updatedUser = await 
     // passing to display later in nex()
-    //console.log('updatedFavorites: ', foundUser);
+    console.log('updatedFavorites: ', foundUser);
     res.locals.addFav = favorites;
     // save new favorite entry to Favorites collection 
     //console.log('addFav: ', res.locals.addFav);

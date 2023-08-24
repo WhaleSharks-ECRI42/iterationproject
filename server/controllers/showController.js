@@ -12,7 +12,7 @@ showController.getShow = (req, res, next) => {
     };
     const {genre, runtime, rating, origin} = req.body
     console.log('body: ' , req.body);
-     fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=${rating}&with_genres=${genre}&with_origin_country=${origin}&with_runtime.lte=${runtime}`, options)
+     fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=${rating}&with_genres=${genre}&with_origin_country=${origin}&with_runtime.lte=${runtime}`, options)
     .then(response => response.json())
     .then(response => {
       res.locals.results = response.results;
@@ -36,7 +36,7 @@ https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_
 // MOVIES
 /*
 
-https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte={rating}&with_genres=${genre}&with_origin_country=${origin}&with_runtime.lte={runtime}
+https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=${rating}&with_genres=${genre}&with_origin_country=${origin}&with_runtime.lte=${runtime}
 
 */
 
