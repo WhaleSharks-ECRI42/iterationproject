@@ -16,6 +16,7 @@ const Recommendation = ({ show }) => {
   const showDeleteButton2 = useSelector(
     (state) => state.shows.showDeleteButton
   );
+  console.log('Recommendations.jsx: show:', show);
   const addToFavorite = function () {
     const favorite = {
       name: show.name,
@@ -24,11 +25,12 @@ const Recommendation = ({ show }) => {
       overview: show.overview,
       poster_path: show.poster_path,
     };
+    console.log('Recommendations.jsx: addToFavorite: favorite', favorite)
     dispatch(addFavorite(favorite));
   };
 
   const deleteFavorite2 = () => {
-    dispatch(deleteFavorite(show._id));
+    dispatch(deleteFavorite(show.id));
   };
 
   return (

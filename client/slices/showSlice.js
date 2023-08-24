@@ -27,9 +27,10 @@ const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
   }
 );
 
-/* export */ const addFavorite = createAsyncThunk(
+const addFavorite = createAsyncThunk(
   "shows/addFavorite",
   async (favoriteObj, { rejectWithValue }) => {
+    console.log('in async funk w/in searchTV');
     try {
       const response = await fetch("http://localhost:3000/Favorite/Add", {
         method: "POST",
@@ -186,6 +187,10 @@ module.exports = {
   reducer: showSlice.reducer,
   updatePassword,
   updateUsername,
+  searchTV,
+  addFavorite,
+  displaysFavorites,
+  deleteFavorite,
 };
 
 //this is a comment
